@@ -8,7 +8,7 @@ class CVCamera(Camera):
 
     def __init__(self):
         if os.environ.get('OPENCV_CAMERA_SOURCE'):
-            Camera.set_video_source(int(os.environ['OPENCV_CAMERA_SOURCE']))
+            Camera.set_video_source(-1)
             print("Here 2")
         super(Camera, self).__init__()
 

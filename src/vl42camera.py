@@ -7,12 +7,13 @@ from camera import Camera
 
 class v4l2Camera(Camera):
     """Requires python-v4l2capture module: https://github.com/gebart/python-v4l2capture"""
-
     video_source = "/dev/video0"
+
 
     @staticmethod
     def frames():
-        video = v4l2capture.Video_device(Camera.video_source)
+
+        video = v4l2capture.Video_device(v4l2Camera.video_source)
         # Suggest an image size. The device may choose and return another if unsupported
         size_x = 640
         size_y = 480

@@ -2,7 +2,8 @@ from flask import Flask, render_template, Response
 import os
 
 from CVCamera import CVCamera
-
+from dummyCamera import DummyCamera
+from vl42camera import v4l2Camera
 
 app = Flask(__name__ , template_folder=os.path.abspath('src/templates'))
 
@@ -17,7 +18,6 @@ def gen(camera):
     """Video streaming generator function."""
     yield b'--frame\r\n'
     while True:
-        print("Here1")
         frame = camera.get_frame()
         yield b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n--frame\r\n'
 
@@ -25,7 +25,7 @@ def gen(camera):
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(CVCamera()),
+    return Response(gen(v4l2Camera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
