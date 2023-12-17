@@ -3,12 +3,13 @@ import cv2
 from camera import Camera
 
 
-class Camera(Camera):
+class CVCamera(Camera):
     video_source = 0
 
     def __init__(self):
         if os.environ.get('OPENCV_CAMERA_SOURCE'):
             Camera.set_video_source(int(os.environ['OPENCV_CAMERA_SOURCE']))
+            print("Here 2")
         super(Camera, self).__init__()
 
     @staticmethod

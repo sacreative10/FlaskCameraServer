@@ -1,0 +1,6 @@
+
+Flask
+opencv-python
+v4l2
+v4l2capture
+pillow
