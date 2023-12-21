@@ -4,6 +4,7 @@ import os
 from CVCamera import CVCamera
 from dummyCamera import DummyCamera
 from vl42camera import v4l2Camera
+from PiCamera import PiCamera
 
 app = Flask(__name__ , template_folder=os.path.abspath('src/templates'))
 
@@ -25,7 +26,7 @@ def gen(camera):
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(v4l2Camera()),
+    return Response(gen(PiCamera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
