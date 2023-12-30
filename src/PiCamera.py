@@ -1,23 +1,25 @@
 import io
-import picamera
+import picamera2
 import time
 from camera import Camera
+
+# using PiCamera2
+
 
 class PiCamera(Camera):
     @staticmethod
     def frames():
-        with picamera.PiCamera() as camera:
+        with picamera2.PiCamera() as camera:
             # let camera warm up
             time.sleep(2)
 
-            stream = io.BytesIO()
-            for _ in camera.capture_continuous(stream, 'jpeg',
-                                               use_video_port=True):
-                # return current frame
+            with picamera2.array.PiRGBArray(camera) as stream:
+                for _ in camera.capture_continuous(stream, "rgb", use_video_port=True):
+                    # convert rgb to jpeg
+                    jpegData = bytearray()
+                    stream.rgb_array.tofile(jpegData, format="jpeg")
 
-                stream.seek(0)
-                yield stream.read()
+                    yield bytes(jpegData)
 
-                # reset stream for next frame
-                stream.seek(0)
-                stream.truncate()
+                    # reset stream for next frame
+                    stream.truncate()
